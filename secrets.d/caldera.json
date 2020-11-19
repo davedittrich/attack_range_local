@@ -1,0 +1,7 @@
+[
+  {
+    "Variable": "caldera_password",
+    "Type": "password",
+    "Prompt": "Caldera password for user 'admin'"
+  }
+]

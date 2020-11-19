@@ -1,0 +1,8 @@
+[
+  {
+    "Variable": "splunk_server_private_ip",
+    "Type": "string",
+    "Prompt": "Splunk server private IP (terraform mode should be in 10.0.1.0/24)",
+    "Options": "10.0.1.12,*"
+  }
+]

@@ -1,0 +1,14 @@
+[
+  {
+    "Variable": "install_es",
+    "Type": "string",
+    "Prompt": "Install Splunk Enterprise Security or not",
+    "Options": "0,1"
+  },
+  {
+    "Variable": "splunk_es_app",
+    "Type": "string",
+    "Prompt": "Splunk Enterprise Security file (as saved into apps folder)",
+    "Options": "splunk-enterprise-security_620.spl,*"
+  }
+]

@@ -1,0 +1,8 @@
+[
+  {
+    "Variable": "install_mltk",
+    "Type": "string",
+    "Prompt": "Install Splunk MLTK or not",
+    "Options": "0,1"
+  }
+]

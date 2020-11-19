@@ -1,0 +1,20 @@
+[
+  {
+    "Variable": "art_run_techniques",
+    "Type": "string",
+    "Prompt": "Default atomic_red_team technique to run",
+    "Options": "T1003.001,*"
+  },
+  {
+    "Variable": "art_repository",
+    "Type": "string",
+    "Prompt": "Atomic Red Team repository fork you want to use",
+    "Options": "splunk,*"
+  },
+  {
+    "Variable": "art_branch",
+    "Type": "string",
+    "Prompt": "New branch of the Atomic Red Team repository you want to use",
+    "Options": "local-master,*"
+  }
+]
