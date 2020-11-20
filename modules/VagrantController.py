@@ -44,9 +44,8 @@ class VagrantController():
 
 
     def read_vagrant_file(self, path):
-        j2_env = Environment(loader=FileSystemLoader('vagrant'),trim_blocks=True)
-        template = j2_env.get_template(path)
-        vagrant_file = template.render(self.config)
+        with open(os.path.join('vagrant', path), 'r') as vf:
+            vagrant_file = vf.read()
         return vagrant_file
 
 

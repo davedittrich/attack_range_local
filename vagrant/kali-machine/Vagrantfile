@@ -4,7 +4,7 @@ config.vm.define "attack-range-kali_machine" do |config|
   config.vm.box_version = "2019.3.0"
   config.vm.boot_timeout = 600
   config.vm.hostname = "kali"
-  config.vm.network :private_network, ip: "{{ kali_machine_private_ip }}"
+  config.vm.network :private_network, ip: ENV["kali_machine_private_ip"]
 
   config.vm.provision "ansible" do |ansible|
       ansible.playbook = "../ansible/kali_linux.yml"
@@ -12,8 +12,8 @@ config.vm.define "attack-range-kali_machine" do |config|
       ansible.compatibility_mode = "2.0"
       ansible.extra_vars = {
         ansible_python_interpreter: "/usr/bin/python3",
-        run_demo: '{{ run_demo }}',
-        demo_scenario: '{{ demo_scenario }}'
+        run_demo: ENV["run_demo"],
+        demo_scenario: ENV["demo_scenario"]
       }
   end
 
