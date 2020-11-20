@@ -3,6 +3,7 @@ import sys
 import argparse
 from modules import logger
 from pathlib import Path
+from psec.secrets import SecretsEnvironment
 from modules.CustomConfigParser import CustomConfigParser
 from modules.VagrantController import VagrantController
 
@@ -11,6 +12,13 @@ from modules.VagrantController import VagrantController
 # see this discussion for more details: https://github.com/ansible/ansible/issues/34056#issuecomment-352862252
 os.environ['OBJC_DISABLE_INITIALIZE_FORK_SAFETY'] = 'YES'
 
+# Identify the default python_secrets environment that will
+# be used. In the simple case, it will be same as the current
+# directory ("attack_range_local" for normal clone.)
+# Change with 'psec environments default' if you want to
+# change the default, or select the environment you want
+# to use. See also 'psec environments help'.
+default_environment = SecretsEnvironment().environment()
 VERSION = 1
 
 
@@ -21,12 +29,12 @@ if __name__ == "__main__":
                         help="action to take on the range, defaults to \"build\", build/destroy/simulate/stop/resume allowed")
     parser.add_argument("-t", "--target", required=False,
                         help="target for attack simulation. For mode vagrant use name of the vbox")
+    parser.add_argument("-e", "--environment", required=False, default=default_environment,
+                        help="environment to use for configuration settings")
     parser.add_argument("-st", "--simulation_technique", required=False, type=str, default="",
                         help="comma delimited list of MITRE ATT&CK technique ID to simulate in the attack_range, example: T1117, T1118, requires --simulation flag")
     parser.add_argument("-sa", "--simulation_atomics", required=False, type=str, default="",
                         help="specify dedicated Atomic Red Team atomics to simulate in the attack_range, example: Regsvr32 remote COM scriptlet execution for T1117")
-    parser.add_argument("-c", "--config", required=False, default="attack_range_local.conf",
-                        help="path to the configuration file of the attack range")
     parser.add_argument("-lm", "--list_machines", required=False, default=False, action="store_true", help="prints out all available machines")
     parser.add_argument("-dn", "--dump_name", required=False, help="define the dump name")
     parser.add_argument("-v", "--version", default=False, action="store_true", required=False,
@@ -36,8 +44,8 @@ if __name__ == "__main__":
     args = parser.parse_args()
     ARG_VERSION = args.version
     action = args.action
+    environment = args.environment
     target = args.target
-    config = args.config
     simulation_techniques = args.simulation_technique
     simulation_atomics = args.simulation_atomics
     list_machines = args.list_machines
@@ -61,18 +69,19 @@ starting program loaded for B1 battle droid
            .'=`=.
     """)
 
-    # parse config
-    attack_range_config = Path(config)
-    if attack_range_config.is_file():
-        print("attack_range is using config at path {0}".format(attack_range_config))
-        configpath = str(attack_range_config)
-    else:
-        print("ERROR: attack_range failed to find a config file at {0} or {1}..exiting".format(attack_range_config))
+    # Load configuration from default python-secrets environment
+    # and export them environment variables for programs running
+    # in child processes (e.g., Vagrant) to access.
+    env = SecretsEnvironment(environment=environment,
+                             export_env_vars=True)
+    if not env.environment_exists():
+        print((f"ERROR: environment '{str(env)}' does not exist "
+               "(try 'psec environments list'?)"), file=sys.stderr)
         sys.exit(1)
 
-    # Parse config
-    parser = CustomConfigParser()
-    config = parser.load_conf(configpath)
+    env.read_secrets()
+    print(f"attack_range is using python_secrets environment '{str(env)}'")
+    config = env._secrets
 
     log = logger.setup_logging(config['log_path'], config['log_level'])
     log.info("INIT - attack_range v" + str(VERSION))
