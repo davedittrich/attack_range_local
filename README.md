@@ -20,7 +20,8 @@ Attack Range can be built in three different ways:
 ## Architecture 🏯
 ![Logical Diagram](docs/attack_range_local_architecture.png)
 
-The virtualized deployment of Attack Range consists of:
+The virtualized deployment of Attack Range consists of one or more of the following
+systems:
 
 - Windows Domain Controller
 - Windows Server
@@ -29,8 +30,7 @@ The virtualized deployment of Attack Range consists of:
 - Splunk Server
 - Phantom Server
 
-Which can be added/removed/configured using [attack_range_local.conf](attack_range_local.conf). More machines such as Phantom, Linux server, Linux client, MacOS clients are currently under development.
-
+More machines such as Phantom, Linux server, Linux client, MacOS clients are currently under development.
 
 #### Logging
 The following log sources are collected from the machines:
@@ -41,6 +41,150 @@ The following log sources are collected from the machines:
 - Network Logs with Splunk Stream (```index = main```)
 - Attack Simulation Logs from Atomic Red Team and Caldera (```index = attack```)
 
+## Configuring the Attack Range
+
+The configuration of the Attack Range is managed using the command
+line program `psec` from the [python_secrets](https://pypi.org/project/python_secrets)
+package.
+
+All configuration settings are stored outside of the repository directory,
+allowing you to do things like maintain multiple different configurations
+(e.g., for different sets of hosts or different attack scenarios) and
+switch between them before building the Attack Range.
+
+### Creating an environment to hold configuration settings
+
+After cloning the `attack_range_local` repository for the first time, you need
+to create a `python_secrets` _environment_ to store the configuration settings.
+
+To get going, create an environment by cloning from the group
+descriptions in the directory `secrets.d`.
+
+```
+$ psec environments create --clone-from secrets.d
+[+] environment 'attack_range_local' (/home/youraccount/.secrets/attack_range_local) created
+```
+
+You can see the descriptions of all the variables, their group, and
+other information, with `psec secrets describe`:
+
+```
+$ psec secrets describe --fit-width
++------------------------------------+---------------------------+----------+------------------------------------+------------------------------------+
+| Variable                           | Group                     | Type     | Prompt                             | Options                            |
++------------------------------------+---------------------------+----------+------------------------------------+------------------------------------+
+| windows_client_private_ip          | windows_client            | string   | Windows client private IP          | 10.0.1.17,*                        |
+|                                    |                           |          | (terraform mode should be in       |                                    |
+|                                    |                           |          | 10.0.1.0/24)                       |                                    |
+| windows_client_os                  | windows_client            | string   | Windows client operating system    | Windows-10,*                       |
+|                                    |                           |          | (Vagrant use 'Windows-10')         |                                    |
+| windows_client_join_domain         | windows_client            | string   | Should the Windows client join the | 0,1                                |
+|                                    |                           |          | Windows Domain                     |                                    |
+| splunk_admin_password              | splunk_settings           | password | Password for Splunk 'admin' user   | *                                  |
+             . . .
+| phantom_server                     | environment               | string   | Enable a phantom server            | 0,1                                |
+| windows_domain_controller          | environment               | string   | Enable a Windows Domain Controller | 1,0                                |
+| windows_server                     | environment               | string   | Enable a Windows Server            | 0,1                                |
+| kali_machine                       | environment               | string   | Enable a Kali Linux machine        | 0,1                                |
+| windows_client                     | environment               | string   | Enable a Windows client (Vagrant   | 0,1                                |
+|                                    |                           |          | only)                              |                                    |
+| caldera_password                   | caldera                   | password | Caldera password for user 'admin'  | *                                  |
++------------------------------------+---------------------------+----------+------------------------------------+------------------------------------+
+```
+
+When you change variables later, you may get prompted with the string in
+`Prompt` and may be presented options you can enter from `Options`.
+(Note that the first option in the list will be used to set "default" values in
+just a minute.)
+
+### Initial Configuration
+
+After cloning a new environment, no variables are set (just defined,
+as shown above). You can see the values of variables with the `secrets show
+--no-redact` command. Here are just the two seen in the output above:
+
+```
+$ psec secrets show --no-redact win_password splunk_admin_password
++-----------------------+-------+-----------------------+
+| Variable              | Value | Export                |
++-----------------------+-------+-----------------------+
+| splunk_admin_password | None  | splunk_admin_password |
+| win_password          | None  | win_password          |
++-----------------------+-------+-----------------------+
+```
+
+Generate a secure, single common password for all variables like these
+with the type `password`, then set all of the rest of the variables of type
+`string` to their default:
+
+```
+$ psec secrets generate
+$ psec secrets set --from-options
+```
+
+At this point, you are ready to build the local Attack Range with
+default settings and secure unique passwords.
+
+```
+$ psec secrets show --no-redact --type password
++----------------------------+----------------------------+----------------------------+
+| Variable                   | Value                      | Export                     |
++----------------------------+----------------------------+----------------------------+
+| splunk_admin_password      | versus.exhume.shield.trial | splunk_admin_password      |
+| phantom_community_password | versus.exhume.shield.trial | phantom_community_password |
+| phantom_admin_password     | versus.exhume.shield.trial | phantom_admin_password     |
+| win_password               | versus.exhume.shield.trial | win_password               |
+| caldera_password           | versus.exhume.shield.trial | caldera_password           |
++----------------------------+----------------------------+----------------------------+
+```
+
+NOTE: When Ansible is configuring Windows VMs, it may fail due to the Windows
+password policy requiring greater complexity, in which case you may need to set
+a separate password for the Windows host.
+
+```
+$ psec secrets set win_password='#Versus1Exhume2Shield3Trial!'
+```
+
+### Changing the configuration
+
+The variables controlling which systems are enabled are found in the
+`environment` group. You can see the current settings with this command:
+
+```
+$ psec secrets show --no-redact --group environment
++---------------------------+-------+---------------------------+
+| Variable                  | Value | Export                    |
++---------------------------+-------+---------------------------+
+| phantom_server            | 0     | phantom_server            |
+| windows_domain_controller | 1     | windows_domain_controller |
+| windows_server            | 0     | windows_server            |
+| kali_machine              | 0     | kali_machine              |
+| windows_client            | 0     | windows_client            |
++---------------------------+-------+---------------------------+
+```
+
+Defaults are defined by the first item in the list of `Options` for
+each variable.
+
+```
+$ psec secrets describe --group environment
++---------------------------+-------------+--------+----------------------------------------+---------+
+| Variable                  | Group       | Type   | Prompt                                 | Options |
++---------------------------+-------------+--------+----------------------------------------+---------+
+| phantom_server            | environment | string | Enable a phantom server                | 0,1     |
+| windows_domain_controller | environment | string | Enable a Windows Domain Controller     | 1,0     |
+| windows_server            | environment | string | Enable a Windows Server                | 0,1     |
+| kali_machine              | environment | string | Enable a Kali Linux machine            | 0,1     |
+| windows_client            | environment | string | Enable a Windows client (Vagrant only) | 0,1     |
++---------------------------+-------------+--------+----------------------------------------+---------+
+```
+
+To enable a system, set its variable to the value `1`:
+
+```
+$ psec secrets set kali_machine=1
+```
 
 ## Running 🏃‍♀️
 Attack Range supports different actions:
