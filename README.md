@@ -42,20 +42,21 @@ The following log sources are collected from the machines:
 - Attack Simulation Logs from Atomic Red Team and Caldera (```index = attack```)
 
 ## Configuring the Attack Range
-
 The configuration of the Attack Range is managed using the command
 line program `psec` from the [python_secrets](https://pypi.org/project/python_secrets)
 package.
 
-All configuration settings are stored outside of the repository directory,
-allowing you to do things like maintain multiple different configurations
-(e.g., for different sets of hosts or different attack scenarios) and
-switch between them before building the Attack Range.
+All configuration settings are stored outside of the repository directory
+preventing accidental leakage of secrets and allowing you to do things like
+maintain multiple different configurations (e.g., for different sets of hosts
+or different attack scenarios) and switch between them before building the
+Attack Range.
 
 ### Creating an environment to hold configuration settings
-
 After cloning the `attack_range_local` repository for the first time, you need
-to create a `python_secrets` _environment_ to store the configuration settings.
+to bootstrap a new `python_secrets` _environment_ to store your configuration
+settings. This environment will remain, even if you delete the repo directory
+and re-clone it (e.g., to work on local modifications for Pull Requests).
 
 To get going, create an environment by cloning from the group
 descriptions in the directory `secrets.d`.
@@ -65,7 +66,7 @@ $ psec environments create --clone-from secrets.d
 [+] environment 'attack_range_local' (/home/youraccount/.secrets/attack_range_local) created
 ```
 
-You can see the descriptions of all the variables, their group, and
+You can see all of the variables and their descriptions, their group, and
 other information, with `psec secrets describe`:
 
 ```
@@ -92,16 +93,21 @@ $ psec secrets describe --fit-width
 +------------------------------------+---------------------------+----------+------------------------------------+------------------------------------+
 ```
 
-When you change variables later, you may get prompted with the string in
-`Prompt` and may be presented options you can enter from `Options`.
-(Note that the first option in the list will be used to set "default" values in
-just a minute.)
+When you want to change the values of one or more variables later, you may get
+prompted with the string in `Prompt` and may be presented options you can enter
+from `Options`.  The first option in the list will be used to set "default"
+values for some variables in just a minute.
+
+> **NOTE**: Variables of type `password` can be set manually, but do not have
+> defaults. You either generate a new random value, or manually set a desired
+> value. This mitigates "default password" security problems and leakage of
+> secrets through accidental commits.
 
 ### Initial Configuration
-
 After cloning a new environment, no variables are set (just defined,
-as shown above). You can see the values of variables with the `secrets show
---no-redact` command. Here are just the two seen in the output above:
+as shown above). If you show the values of variables with the
+`secrets show --no-redact` subcommand, they show up at first
+as `None`. Here are just the two seen in the output above:
 
 ```
 $ psec secrets show --no-redact win_password splunk_admin_password
@@ -115,14 +121,13 @@ $ psec secrets show --no-redact win_password splunk_admin_password
 
 Generate a secure, single common password for all variables like these
 with the type `password`, then set all of the rest of the variables of type
-`string` to their default:
+`string` to their defaults, with the following command:
 
 ```
-$ psec secrets generate
-$ psec secrets set --from-options
+$ psec secrets generate && psec secrets set --from-options
 ```
 
-At this point, you are ready to build the local Attack Range with
+At this point, you are ready to build the Attack Range with
 default settings and secure unique passwords.
 
 ```
@@ -138,34 +143,21 @@ $ psec secrets show --no-redact --type password
 +----------------------------+----------------------------+----------------------------+
 ```
 
-NOTE: When Ansible is configuring Windows VMs, it may fail due to the Windows
-password policy requiring greater complexity, in which case you may need to set
-a separate password for the Windows host.
+> **NOTE**: When Ansible is configuring Windows VMs, it may fail due to the
+> Windows password policy requiring greater complexity. If this happens, you may
+> need to set a separate password for the Windows host.
 
 ```
 $ psec secrets set win_password='#Versus1Exhume2Shield3Trial!'
 ```
 
 ### Changing the configuration
-
 The variables controlling which systems are enabled are found in the
-`environment` group. You can see the current settings with this command:
-
-```
-$ psec secrets show --no-redact --group environment
-+---------------------------+-------+---------------------------+
-| Variable                  | Value | Export                    |
-+---------------------------+-------+---------------------------+
-| phantom_server            | 0     | phantom_server            |
-| windows_domain_controller | 1     | windows_domain_controller |
-| windows_server            | 0     | windows_server            |
-| kali_machine              | 0     | kali_machine              |
-| windows_client            | 0     | windows_client            |
-+---------------------------+-------+---------------------------+
-```
+`environment` group.
 
 Defaults are defined by the first item in the list of `Options` for
-each variable.
+each variable. The only system enabled by default in this case is
+the `windows_domain_controller` system.
 
 ```
 $ psec secrets describe --group environment
@@ -178,6 +170,21 @@ $ psec secrets describe --group environment
 | kali_machine              | environment | string | Enable a Kali Linux machine            | 0,1     |
 | windows_client            | environment | string | Enable a Windows client (Vagrant only) | 0,1     |
 +---------------------------+-------------+--------+----------------------------------------+---------+
+```
+
+You can see the current settings with this command:
+
+```
+$ psec secrets show --no-redact --group environment
++---------------------------+-------+---------------------------+
+| Variable                  | Value | Export                    |
++---------------------------+-------+---------------------------+
+| phantom_server            | 0     | phantom_server            |
+| windows_domain_controller | 1     | windows_domain_controller |
+| windows_server            | 0     | windows_server            |
+| kali_machine              | 0     | kali_machine              |
+| windows_client            | 0     | windows_client            |
++---------------------------+-------+---------------------------+
 ```
 
 To enable a system, set its variable to the value `1`:
