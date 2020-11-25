@@ -32,6 +32,6 @@
     "Variable": "windows_timezone",
     "Type": "string",
     "Prompt": "Specify the timezone to be set on the windows hosts",
-    "Options": "*"
+    "Options": "GMT Standard Time,*"
   }
 ]
