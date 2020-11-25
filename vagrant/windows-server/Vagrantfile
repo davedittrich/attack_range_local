@@ -27,7 +27,8 @@ config.vm.define "attack-range-windows-server" do |config|
         windows_domain_controller_private_ip: ENV["windows_domain_controller_private_ip"],
         run_demo: ENV["run_demo"],
         demo_scenario: ENV["demo_scenario"],
-        capture_attack_data: ENV["capture_attack_data"]
+        capture_attack_data: ENV["capture_attack_data"],
+        win_timezone: ENV["win_timezone"]
       }
       ansible.playbook = "../ansible/windows_dc_client.yml"
       ansible.config_file = "../ansible/ansible.cfg"
@@ -37,8 +38,8 @@ config.vm.define "attack-range-windows-server" do |config|
   config.vm.provider "virtualbox" do |vb, override|
     vb.gui = true
     vb.name = "#{VM_NAME_WIN_DC_CLIENT}"
-    vb.customize ["modifyvm", :id, "--memory", 2048]
-    vb.customize ["modifyvm", :id, "--cpus", 1]
+    vb.customize ["modifyvm", :id, "--memory", ENV["windows_server_memory"]
+    vb.customize ["modifyvm", :id, "--cpus", ENV["windows_server_cpus"]
     vb.customize ["modifyvm", :id, "--vram", "32"]
     vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
     vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]

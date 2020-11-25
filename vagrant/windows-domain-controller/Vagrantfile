@@ -23,8 +23,8 @@ config.vm.define "attack-range-windows-domain-controller" do |config|
         win_sysmon_url: ENV["win_sysmon_url"],
         win_sysmon_template: ENV["win_sysmon_template"],
         splunk_admin_password: ENV["splunk_admin_password"],
-        capture_attack_data: ENV["capture_attack_data"]
-      }
+        capture_attack_data: ENV["capture_attack_data"],
+        win_timezone: ENV["win_timezone"]
       ansible.playbook = "../ansible/windows_dc.yml"
       ansible.config_file = "../ansible/ansible.cfg"
       ansible.compatibility_mode = "2.0"
@@ -33,8 +33,8 @@ config.vm.define "attack-range-windows-domain-controller" do |config|
   config.vm.provider "virtualbox" do |vb, override|
     vb.gui = true
     vb.name = "#{VM_NAME_WIN_DC}"
-    vb.customize ["modifyvm", :id, "--memory", 2048]
-    vb.customize ["modifyvm", :id, "--cpus", 1]
+    vb.customize ["modifyvm", :id, "--memory", ENV["windows_domain_controller_memory"]]
+    vb.customize ["modifyvm", :id, "--cpus", ENV["windows_domain_controller_cpus"]]
     vb.customize ["modifyvm", :id, "--vram", "32"]
     vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
     vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]

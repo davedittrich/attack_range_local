@@ -4,5 +4,17 @@
     "Type": "string",
     "Prompt": "Splunk server private IP (terraform mode should be in 10.0.1.0/24)",
     "Options": "10.0.1.12,*"
+  },
+  {
+    "Variable": "splunk_server_cpus",
+    "Type": "string",
+    "Prompt": "Number of CPUs for Splunk Server VM",
+    "Options": "4,*"
+  },
+  {
+    "Variable": "splunk_server_memory",
+    "Type": "string",
+    "Prompt": "Memory (in KB) for Splunk Server VM",
+    "Options": "6144,*"
   }
 ]

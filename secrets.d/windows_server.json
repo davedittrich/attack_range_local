@@ -16,5 +16,17 @@
     "Type": "string",
     "Prompt": "Should the Windows server join the Windows Domain",
     "Options": "0,1"
+  },
+  {
+    "Variable": "windows_server_memory",
+    "Type": "string",
+    "Prompt": "Memory (in KB) for Windows Server VM",
+    "Options": "2048,*"
+  },
+  {
+    "Variable": "windows_server_cpus",
+    "Type": "string",
+    "Prompt": "Number of CPUs for Windows Server VM",
+    "Options": "1,*"
   }
 ]

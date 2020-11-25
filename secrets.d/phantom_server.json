@@ -1,0 +1,41 @@
+[
+  {
+    "Variable": "phantom_community_username",
+    "Type": "string",
+    "Prompt": "Username for downloading Phantom from my.phantom.us"
+  },
+  {
+    "Variable": "phantom_community_password",
+    "Type": "password",
+    "Prompt": "Password for downloading Phantom from my.phantom.us"
+  },
+  {
+    "Variable": "phantom_admin_password",
+    "Type": "password",
+    "Prompt": "Password for 'admin' account on Phantom instance"
+  },
+  {
+    "Variable": "phantom_app",
+    "Type": "string",
+    "Prompt": "Splunk Phantom App .tgz file",
+    "Options": "phantom-app-for-splunk_305.tgz,*"
+  },
+  {
+    "Variable": "phantom_server_private_ip",
+    "Type": "string",
+    "Prompt": "Phantom server private IP (terraform mode should be in 10.0.1.0/24)",
+    "Options": "10.0.1.13,*"
+  },
+  {
+    "Variable": "phantom_server_cpus",
+    "Type": "string",
+    "Prompt": "Number of CPUs for Phantom Server VM",
+    "Options": "4,*"
+  },
+  {
+    "Variable": "phantom_server_memory",
+    "Type": "string",
+    "Prompt": "Memory (in KB) for Phantom Server VM",
+    "Options": "4096,*"
+  }
+]

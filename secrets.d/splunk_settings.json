@@ -38,7 +38,7 @@
     "Variable": "splunk_cim_app",
     "Type": "string",
     "Prompt": "Splunk CIM App .tgz file",
-    "Options": "splunk-common-information-model-cim_4160.tgz,*"
+    "Options": "splunk-common-information-model-cim_4180.tgz,*"
   },
   {
     "Variable": "splunk_escu_app",

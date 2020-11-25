@@ -10,5 +10,17 @@
     "Type": "string",
     "Prompt": "Windows Domain Controller operating system",
     "Options": "Windows_Server-2016-English-Full-Base-*,*"
+  },
+  {
+    "Variable": "windows_domain_controller_cpus",
+    "Type": "string",
+    "Prompt": "Number of CPUs for Windows Domain Controller VM",
+    "Options": "1,*"
+  },
+  {
+    "Variable": "windows_domain_controller_memory",
+    "Type": "string",
+    "Prompt": "Memory (in KB) for Windows Domain Controller VM",
+    "Options": "2048,*"
   }
 ]

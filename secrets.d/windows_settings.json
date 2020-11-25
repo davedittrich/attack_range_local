@@ -27,5 +27,11 @@
     "Type": "string",
     "Prompt": "Sysmon template",
     "Options": "AttackRangeSysmon.xml,SysmonConfig-moti.xml,SysmonConfig-Neo23x0-server.xml,SysmonConfig-Neo23x0-workstations.xml,SysmonConfig-TSwift.xml,SysmonConfig-Verbose.xml,SysmonConfigCustom.xml"
+  },
+  {
+    "Variable": "windows_timezone",
+    "Type": "string",
+    "Prompt": "Specify the timezone to be set on the windows hosts",
+    "Options": "*"
   }
 ]
