@@ -25,6 +25,7 @@ config.vm.define "attack-range-windows-domain-controller" do |config|
         splunk_admin_password: ENV["splunk_admin_password"],
         capture_attack_data: ENV["capture_attack_data"],
         win_timezone: ENV["win_timezone"]
+      }
       ansible.playbook = "../ansible/windows_dc.yml"
       ansible.config_file = "../ansible/ansible.cfg"
       ansible.compatibility_mode = "2.0"
