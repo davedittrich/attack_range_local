@@ -1,0 +1,68 @@
+[
+  {
+    "Variable": "windows_client",
+    "Type": "string",
+    "Prompt": "Enable a Windows client (Vagrant only)",
+    "Options": "0,1"
+  },
+  {
+    "Variable": "phantom_server_cpus",
+    "Type": "string",
+    "Prompt": "Number of CPUs for Phantom Server VM",
+    "Options": "4,*"
+  },
+  {
+    "Variable": "phantom_server_memory",
+    "Type": "string",
+    "Prompt": "Memory (in KB) for Phantom Server VM",
+    "Options": "4096,*"
+  },
+  {
+    "Variable": "splunk_server_cpus",
+    "Type": "string",
+    "Prompt": "Number of CPUs for Splunk Server VM",
+    "Options": "4,*"
+  },
+  {
+    "Variable": "splunk_server_memory",
+    "Type": "string",
+    "Prompt": "Memory (in KB) for Splunk Server VM",
+    "Options": "6144,*"
+  },
+  {
+    "Variable": "windows_client_cpus",
+    "Type": "string",
+    "Prompt": "Number of CPUs for Windows Client VM",
+    "Options": "1,*"
+  },
+  {
+    "Variable": "windows_client_memory",
+    "Type": "string",
+    "Prompt": "Memory (in KB) for Windows Client VM",
+    "Options": "2048,*"
+  },
+  {
+    "Variable": "windows_domain_controller_cpus",
+    "Type": "string",
+    "Prompt": "Number of CPUs for Windows Domain Controller VM",
+    "Options": "1,*"
+  },
+  {
+    "Variable": "windows_domain_controller_memory",
+    "Type": "string",
+    "Prompt": "Memory (in KB) for Windows Domain Controller VM",
+    "Options": "2048,*"
+  },
+  {
+    "Variable": "windows_server_memory",
+    "Type": "string",
+    "Prompt": "Memory (in KB) for Windows Server VM",
+    "Options": "2048,*"
+  },
+  {
+    "Variable": "windows_server_cpus",
+    "Type": "string",
+    "Prompt": "Number of CPUs for Windows Server VM",
+    "Options": "1,*"
+  }
+]

@@ -16,17 +16,5 @@
     "Type": "string",
     "Prompt": "Should the Windows client join the Windows Domain",
     "Options": "0,1"
-  },
-  {
-    "Variable": "windows_client_cpus",
-    "Type": "string",
-    "Prompt": "Number of CPUs for Windows Client VM",
-    "Options": "1,*"
-  },
-  {
-    "Variable": "windows_client_memory",
-    "Type": "string",
-    "Prompt": "Memory (in KB) for Windows Client VM",
-    "Options": "2048,*"
   }
 ]

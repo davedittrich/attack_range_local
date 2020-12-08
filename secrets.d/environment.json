@@ -22,11 +22,5 @@
     "Type": "string",
     "Prompt": "Enable a Kali Linux machine",
     "Options": "0,1"
-  },
-  {
-    "Variable": "windows_client",
-    "Type": "string",
-    "Prompt": "Enable a Windows client (Vagrant only)",
-    "Options": "0,1"
   }
 ]

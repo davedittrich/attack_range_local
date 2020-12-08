@@ -59,12 +59,6 @@
     "Options": "python-for-scientific-computing-for-linux-64-bit_200.tgz,*"
   },
   {
-    "Variable": "splunk_mltk_app",
-    "Type": "string",
-    "Prompt": "Splunk MLTK App .tgz file",
-    "Options": "splunk-machine-learning-toolkit_510.tgz,*"
-  },
-  {
     "Variable": "splunk_stream_app",
     "Type": "string",
     "Prompt": "Splunk Stream App .tgz file",
