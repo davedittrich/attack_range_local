@@ -9,6 +9,6 @@
     "Variable": "splunk_es_app",
     "Type": "string",
     "Prompt": "Splunk Enterprise Security file (as saved into apps folder)",
-    "Options": "splunk-enterprise-security_620.spl,*"
+    "Options": "splunk-enterprise-security_640.spl,*"
   }
 ]
