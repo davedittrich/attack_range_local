@@ -1,0 +1,20 @@
+[
+  {
+    "Variable": "windows_server_private_ip",
+    "Type": "string",
+    "Prompt": "Windows server private IP (terraform mode should be in 10.0.1.0/24)",
+    "Options": "10.0.1.15,*"
+  },
+  {
+    "Variable": "windows_server_os",
+    "Type": "string",
+    "Prompt": "Windows server operating system",
+    "Options": "Windows_Server-2016-English-Full-Base-*,*"
+  },
+  {
+    "Variable": "windows_server_join_domain",
+    "Type": "string",
+    "Prompt": "Should the Windows server join the Windows Domain",
+    "Options": "0,1"
+  }
+]

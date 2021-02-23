@@ -47,9 +47,8 @@ class VagrantController():
 
 
     def read_vagrant_file(self, path):
-        j2_env = Environment(loader=FileSystemLoader('vagrant'),trim_blocks=True)
-        template = j2_env.get_template(path)
-        vagrant_file = template.render(self.config)
+        with open(os.path.join('vagrant', path), 'r') as vf:
+            vagrant_file = vf.read()
         return vagrant_file
 
 
@@ -115,9 +114,11 @@ class VagrantController():
 
 
     def get_ip_address_from_machine(self, box):
-        pattern = 'config.vm.define "' + box + '"[\s\S]*?:private_network, ip: "([^"]+)'
-        match = re.search(pattern, self.vagrantfile)
-        return match.group(1)
+        """Translate machine name to variable and return private IP"""
+        # box: attack-range-windows-domain-controller
+        # host: windows_domain_controller_private_ip
+        host = box.replace('attack-range-', '').replace('-', '_')
+        return self.config.get(f"{host}_private_ip")
 
 
     def check_targets_running_vagrant(self, target, log):

@@ -4,24 +4,24 @@ config.vm.define "attack-range-phantom-server" do |config|
   config.vm.hostname = "#{VM_NAME_P}"
   config.vm.boot_timeout = 600
   config.vm.network "forwarded_port", guest: 443, host: 8443, protocol: "tcp"
-  config.vm.network :private_network, ip: "{{ phantom_server_private_ip }}"
+  config.vm.network :private_network, ip: ENV["phantom_server_private_ip"]
 
   config.vm.provision "ansible" do |ansible|
       ansible.playbook = "../ansible/phantom_server.yml"
       ansible.config_file = "../ansible/ansible.cfg"
       ansible.compatibility_mode = "2.0"
       ansible.extra_vars = {
-        phantom_admin_password: '{{ phantom_admin_password }}',
-        phantom_community_username: '{{ phantom_community_username }}',
-        phantom_community_password: '{{ phantom_community_password }}',
-        phantom_server_private_ip: '{{ phantom_server_private_ip }}'
+        phantom_admin_password: ENV["phantom_admin_password"],
+        phantom_community_username: ENV["phantom_community_username"],
+        phantom_community_password: ENV["phantom_community_password"],
+        phantom_server_private_ip: ENV["phantom_server_private_ip"]
       }
   end
 
   config.vm.provider "virtualbox" do |vb, override|
     vb.gui = true
     vb.name = "#{VM_NAME_P}"
-    vb.customize ["modifyvm", :id, "--memory", {{ phantom_server_memory }}]
-    vb.customize ["modifyvm", :id, "--cpus", {{ phantom_server_cpus }}]
+    vb.customize ["modifyvm", :id, "--memory", ENV["phantom_server_memory"]]
+    vb.customize ["modifyvm", :id, "--cpus", ENV["phantom_server_cpus"]]
   end
 end

@@ -1,0 +1,14 @@
+[
+  {
+    "Variable": "windows_domain_controller_private_ip",
+    "Type": "string",
+    "Prompt": "Windows Domain Controller private IP (terraform mode should be in 10.0.1.0/24)",
+    "Options": "10.0.1.14,*"
+  },
+  {
+    "Variable": "windows_domain_controller_os",
+    "Type": "string",
+    "Prompt": "Windows Domain Controller operating system",
+    "Options": "Windows_Server-2016-English-Full-Base-*,*"
+  }
+]

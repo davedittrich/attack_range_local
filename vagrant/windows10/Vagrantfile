@@ -8,25 +8,25 @@ config.vm.define "attack-range-win10" do |config|
   config.winrm.timeout = 300
   config.winrm.retry_limit = 20
   config.vm.network "forwarded_port", guest: 5985, host: 5985
-  config.vm.network :private_network, ip: "{{ windows_client_private_ip }}"
+  config.vm.network :private_network, ip: ENV["windows_client_private_ip"]
 
   config.vm.provision "ansible" do |ansible|
       ansible.extra_vars = {
         ansible_port: 5985,
-        splunk_indexer_ip: "{{ splunk_server_private_ip }}",
-        win_password: '{{ win_password }}',
-        splunk_uf_win_url: '{{ splunk_uf_win_url }}',
-        nxlog_url: '{{ nxlog_url }}',
-        install_dsp: '{{ install_dsp }}',
-        win_sysmon_url: '{{ win_sysmon_url }}',
-        win_sysmon_template: '{{ win_sysmon_template }}',
-        splunk_admin_password: '{{ splunk_admin_password }}',
-        windows_server_join_domain: '{{ windows_client_join_domain }}',
-        windows_domain_controller_private_ip: '{{ windows_domain_controller_private_ip }}',
-        run_demo: '{{ run_demo }}',
-        demo_scenario: '{{ demo_scenario }}',
-        capture_attack_data: '{{ capture_attack_data }}',
-        win_timezone: '{{ win_timezone }}'
+        splunk_indexer_ip: ENV["splunk_server_private_ip"],
+        win_password: ENV["win_password"],
+        splunk_uf_win_url: ENV["splunk_uf_win_url"],
+        nxlog_url: ENV["nxlog_url"],
+        install_dsp: ENV["install_dsp"],
+        win_sysmon_url: ENV["win_sysmon_url"],
+        win_sysmon_template: ENV["win_sysmon_template"],
+        splunk_admin_password: ENV["splunk_admin_password"],
+        windows_server_join_domain: ENV["windows_client_join_domain"],
+        windows_domain_controller_private_ip: ENV["windows_domain_controller_private_ip"],
+        run_demo: ENV["run_demo"],
+        demo_scenario: ENV["demo_scenario"],
+        capture_attack_data: ENV["capture_attack_data"],
+        win_timezone: ENV["win_timezone"]
       }
       ansible.playbook = "../ansible/windows_workstation.yml"
       ansible.config_file = "../ansible/ansible.cfg"
@@ -36,8 +36,8 @@ config.vm.define "attack-range-win10" do |config|
   config.vm.provider "virtualbox" do |vb, override|
     vb.gui = true
     vb.name = "#{VM_NAME_WIN}"
-    vb.customize ["modifyvm", :id, "--memory", {{ windows_client_memory }}]
-    vb.customize ["modifyvm", :id, "--cpus", {{ windows_client_cpus }}]
+    vb.customize ["modifyvm", :id, "--memory", ENV["windows_client_memory"]]
+    vb.customize ["modifyvm", :id, "--cpus", ENV["windows_client_cpus"]]
     vb.customize ["modifyvm", :id, "--vram", "32"]
     vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
     vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]

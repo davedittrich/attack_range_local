@@ -1,0 +1,109 @@
+[
+  {
+    "Variable": "splunk_admin_password",
+    "Type": "password",
+    "Prompt": "Password for Splunk 'admin' user"
+  },
+  {
+    "Variable": "splunk_url",
+    "Type": "string",
+    "Prompt": "Download URL for Splunk Enterprise .tgz file",
+    "Options": "https://download.splunk.com/products/splunk/releases/8.0.2/linux/splunk-8.0.2-a7f645ddaf91-Linux-x86_64.tgz,*"
+  },
+  {
+    "Variable": "splunk_binary",
+    "Type": "string",
+    "Prompt": "Name of Splunk Enterprise executable .tgz file",
+    "Options": "splunk-8.0.2-a7f645ddaf91-Linux-x86_64.tgz,*"
+  },
+  {
+    "Variable": "s3_bucket_url",
+    "Type": "string",
+    "Prompt": "S3 bucket URL from which you want to download the Splunk Apps",
+    "Options": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com,*"
+  },
+  {
+    "Variable": "splunk_windows_ta",
+    "Type": "string",
+    "Prompt": "Splunk Windows TA .tgz file",
+    "Options": "splunk-add-on-for-microsoft-windows_800.tgz,*"
+  },
+  {
+    "Variable": "splunk_sysmon_ta",
+    "Type": "string",
+    "Prompt": "Splunk Sysmon TA .tgz file",
+    "Options": "splunk-add-on-for-microsoft-sysmon_1062.tgz,*"
+  },
+  {
+    "Variable": "splunk_cim_app",
+    "Type": "string",
+    "Prompt": "Splunk CIM App .tgz file",
+    "Options": "splunk-common-information-model-cim_4180.tgz,*"
+  },
+  {
+    "Variable": "splunk_escu_app",
+    "Type": "string",
+    "Prompt": "Splunk ESCU App .tgz file",
+    "Options": "DA-ESS-ContentUpdate-latest.tar.gz,*"
+  },
+  {
+    "Variable": "splunk_asx_app",
+    "Type": "string",
+    "Prompt": "Splunk ASX App .tgz file",
+    "Options": "Splunk_ASX-latest.tar.gz,*"
+  },
+  {
+    "Variable": "splunk_python_app",
+    "Type": "string",
+    "Prompt": "Splunk python for scientific computing dependency that is needed by the MLTK app",
+    "Options": "python-for-scientific-computing-for-linux-64-bit_200.tgz,*"
+  },
+  {
+    "Variable": "splunk_stream_app",
+    "Type": "string",
+    "Prompt": "Splunk Stream App .tgz file",
+    "Options": "splunk-stream_720.tgz,*"
+  },
+  {
+    "Variable": "splunk_security_essentials_app",
+    "Type": "string",
+    "Prompt": "Splunk SSE App .tgz file",
+    "Options": "splunk-security-essentials_310.tgz,*"
+  },
+  {
+    "Variable": "punchard_custom_visualization",
+    "Type": "string",
+    "Prompt": "Punchcard custom visualization .tgz file",
+    "Options": "punchcard-custom-visualization_140.tgz,*"
+  },
+  {
+    "Variable": "status_indicator_custom_visualization",
+    "Type": "string",
+    "Prompt": "Status indicator custom visualization .tgz file",
+    "Options": "status-indicator-custom-visualization_140.tgz,*"
+  },
+  {
+    "Variable": "splunk_attack_range_dashboard",
+    "Type": "string",
+    "Prompt": "Splunk Attack Range Dashboard .tgz file",
+    "Options": "splunk_attack_range_reporting-1.0.5.tar.gz,*"
+  },
+  {
+    "Variable": "splunk_aws_app",
+    "Type": "string",
+    "Prompt": "Splunk AWS App .tgz file",
+    "Options": "splunk-add-on-for-amazon-web-services_500.tgz,*"
+  },
+  {
+    "Variable": "splunk_bots_dataset",
+    "Type": "string",
+    "Prompt": "Comma separated list of values indicating which open-source BOSS of the SOC (BOTS) datasets to install",
+    "Options": "0,1,1a,2,2a,3"
+  },
+  {
+    "Variable": "timeline_custom_visualization",
+    "Type": "string",
+    "Prompt": "Timeline custom visualization .tgz file",
+    "Options": "timeline-custom-visualization_140.tgz,*"
+  }
+]

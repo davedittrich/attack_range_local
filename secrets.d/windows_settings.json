@@ -1,0 +1,37 @@
+[
+  {
+    "Variable": "win_username",
+    "Type": "string",
+    "Prompt": "Administrator User in Windows (recommended 'Administrator')",
+    "Options": "Administrator,*"
+  },
+  {
+    "Variable": "win_password",
+    "Type": "password",
+    "Prompt": "Password for Administrator User in Windows"
+  },
+  {
+    "Variable": "splunk_uf_win_url",
+    "Type": "string",
+    "Prompt": "URL for Splunk Windows universal forwarder .msi file",
+    "Options": "https://download.splunk.com/products/universalforwarder/releases/8.0.2/windows/splunkforwarder-8.0.2-a7f645ddaf91-x64-release.msi,*"
+  },
+  {
+    "Variable": "win_sysmon_url",
+    "Type": "string",
+    "Prompt": "Download URL for sysmon",
+    "Options": "https://attack-range-appbinaries.s3-us-west-2.amazonaws.com/Sysmon.zip,*"
+  },
+  {
+    "Variable": "win_sysmon_template",
+    "Type": "string",
+    "Prompt": "Sysmon template",
+    "Options": "AttackRangeSysmon.xml,SysmonConfig-moti.xml,SysmonConfig-Neo23x0-server.xml,SysmonConfig-Neo23x0-workstations.xml,SysmonConfig-TSwift.xml,SysmonConfig-Verbose.xml,SysmonConfigCustom.xml"
+  },
+  {
+    "Variable": "win_timezone",
+    "Type": "string",
+    "Prompt": "Specify the timezone to be set on the windows hosts",
+    "Options": "GMT Standard Time,*"
+  }
+]

@@ -1,4 +1,3 @@
-
 config.vm.define "attack-range-windows-domain-controller" do |config|
   VM_NAME_WIN_DC= "attack-range-windows-domain-controller"
   config.vm.box = "d1vious/windows2016"
@@ -10,22 +9,22 @@ config.vm.define "attack-range-windows-domain-controller" do |config|
   config.winrm.timeout = 300
   config.winrm.retry_limit = 20
   config.vm.network "forwarded_port", guest: 5985, host: 6000
-  config.vm.network :private_network, ip: "{{ windows_domain_controller_private_ip }}"
+  config.vm.network :private_network, ip: ENV["windows_domain_controller_private_ip"]
 
   config.vm.provision "ansible" do |ansible|
       ansible.extra_vars = {
         ansible_port: 6000,
         ansible_winrm_scheme: 'http',
-        splunk_indexer_ip: "{{ splunk_server_private_ip }}",
-        win_password: '{{ win_password }}',
-        splunk_uf_win_url: '{{ splunk_uf_win_url }}',
-        nxlog_url: '{{ nxlog_url }}',
-        install_dsp: '{{ install_dsp }}',
-        win_sysmon_url: '{{ win_sysmon_url }}',
-        win_sysmon_template: '{{ win_sysmon_template }}',
-        splunk_admin_password: '{{ splunk_admin_password }}',
-        capture_attack_data: '{{ capture_attack_data }}',
-        win_timezone: '{{ win_timezone }}',
+        splunk_indexer_ip: ENV["splunk_server_private_ip"],
+        win_password: ENV["win_password"],
+        splunk_uf_win_url: ENV["splunk_uf_win_url"],
+        nxlog_url: ENV["nxlog_url"],
+        install_dsp: ENV["install_dsp"],
+        win_sysmon_url: ENV["win_sysmon_url"],
+        win_sysmon_template: ENV["win_sysmon_template"],
+        splunk_admin_password: ENV["splunk_admin_password"],
+        capture_attack_data: ENV["capture_attack_data"],
+        win_timezone: ENV["win_timezone"]
       }
       ansible.playbook = "../ansible/windows_dc.yml"
       ansible.config_file = "../ansible/ansible.cfg"
@@ -35,8 +34,8 @@ config.vm.define "attack-range-windows-domain-controller" do |config|
   config.vm.provider "virtualbox" do |vb, override|
     vb.gui = true
     vb.name = "#{VM_NAME_WIN_DC}"
-    vb.customize ["modifyvm", :id, "--memory", {{ windows_domain_controller_memory }}]
-    vb.customize ["modifyvm", :id, "--cpus", {{ windows_domain_controller_cpus }}]
+    vb.customize ["modifyvm", :id, "--memory", ENV["windows_domain_controller_memory"]]
+    vb.customize ["modifyvm", :id, "--cpus", ENV["windows_domain_controller_cpus"]]
     vb.customize ["modifyvm", :id, "--vram", "32"]
     vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
     vb.customize ["setextradata", "global", "GUI/SuppressMessages", "all" ]

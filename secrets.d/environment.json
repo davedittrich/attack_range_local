@@ -1,0 +1,26 @@
+[
+  {
+    "Variable": "phantom_server",
+    "Type": "string",
+    "Prompt": "Enable a phantom server",
+    "Options": "0,1"
+  },
+  {
+    "Variable": "windows_domain_controller",
+    "Type": "string",
+    "Prompt": "Enable a Windows Domain Controller",
+    "Options": "1,0"
+  },
+  {
+    "Variable": "windows_server",
+    "Type": "string",
+    "Prompt": "Enable a Windows Server",
+    "Options": "0,1"
+  },
+  {
+    "Variable": "kali_machine",
+    "Type": "string",
+    "Prompt": "Enable a Kali Linux machine",
+    "Options": "0,1"
+  }
+]

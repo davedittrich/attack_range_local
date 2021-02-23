@@ -1,0 +1,20 @@
+[
+  {
+    "Variable": "windows_client_private_ip",
+    "Type": "string",
+    "Prompt": "Windows client private IP (terraform mode should be in 10.0.1.0/24)",
+    "Options": "10.0.1.17,*"
+  },
+  {
+    "Variable": "windows_client_os",
+    "Type": "string",
+    "Prompt": "Windows client operating system (Vagrant use 'Windows-10')",
+    "Options": "Windows-10,*"
+  },
+  {
+    "Variable": "windows_client_join_domain",
+    "Type": "string",
+    "Prompt": "Should the Windows client join the Windows Domain",
+    "Options": "0,1"
+  }
+]
