@@ -23,7 +23,7 @@
   command: "/opt/splunk/bin/splunk search '| essinstall ' -auth admin:{{ splunk_admin_password }}"
   become: yes
   become_user: splunk
-  when: install_es == "1" and {{ splunk_es_app_version | int }} < 640
+  when: install_es == "1" and splunk_es_app_version|int < 640
 
 ## disable most of the searches
 #
